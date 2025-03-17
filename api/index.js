@@ -5,21 +5,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/unblock", (req, res) => {
-    const { url } = req.query;
-    
-    if (!url || !url.includes("mediafire.com")) {
-        return res.status(400).json({ error: "URL tidak valid" });
-    }
+app.post("/generate", (req, res) => {
+    let { url } = req.body;
 
-    try {
-        let newUrl = url.replace("www.mediafire.com", "www.mediafire.com/file");
-        newUrl += "?dkey=2p96cmomcgw&r=33"; 
+    const match = url.match(/quickkey=([a-zA-Z0-9]+)/);
+    if (!match) return res.json({ error: "Invalid MediaFire URL" });
 
-        res.json({ original: url, unblocked: newUrl });
-    } catch (error) {
-        res.status(500).json({ error: "Gagal memproses link" });
-    }
+    let quickkey = match[1];
+    let linkAlternatif = `https://www.mediafire.com/?qkxdxntzw1p4p7y,${quickkey}`;
+
+    res.json({ linkAlternatif });
 });
 
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

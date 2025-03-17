@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediaFire Unblocker</title>
+    <title>MediaFire Link Unblocker</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
     <div class="container">
-        <h2>MediaFire Link Unblocker</h2>
-        <input type="text" id="mediafire-link" placeholder="Masukkan link MediaFire yang diblokir">
-        <button onclick="unblockLink()">Generate Link Alternatif</button>
-        <p id="result"></p>
+        <h1 class="title"><i class="fas fa-unlock"></i> MediaFire Link Unblocker</h1>
+        <div class="input-container">
+            <input id="url" type="text" placeholder="Paste MediaFire blocked link..." />
+            <button id="generate"><i class="fas fa-magic"></i> Generate</button>
+        </div>
+        <div id="result" class="hidden">
+            <p>✅ Unblocked Link:</p>
+            <a id="unblocked-link" href="#" target="_blank"></a>
+        </div>
     </div>
-
-    <script>
-        async function unblockLink() {
-            let inputLink = document.getElementById("mediafire-link").value;
-            let response = await fetch(`/api/unblock?url=${encodeURIComponent(inputLink)}`);
-            let data = await response.json();
-
-            if (data.unblocked) {
-                document.getElementById("result").innerHTML = `<a href="${data.unblocked}" target="_blank">${data.unblocked}</a>`;
-            } else {
-                document.getElementById("result").innerText = "Gagal memproses link.";
-            }
-        }
-    </script>
 </body>
 </html>
