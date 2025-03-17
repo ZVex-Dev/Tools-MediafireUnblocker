@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaFire Unblocker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>MediaFire Link Unblocker</h2>
+        <input type="text" id="mediafire-link" placeholder="Masukkan link MediaFire yang diblokir">
+        <button onclick="unblockLink()">Generate Link Alternatif</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        async function unblockLink() {
+            let inputLink = document.getElementById("mediafire-link").value;
+            let response = await fetch(`/api/unblock?url=${encodeURIComponent(inputLink)}`);
+            let data = await response.json();
+
+            if (data.unblocked) {
+                document.getElementById("result").innerHTML = `<a href="${data.unblocked}" target="_blank">${data.unblocked}</a>`;
+            } else {
+                document.getElementById("result").innerText = "Gagal memproses link.";
+            }
+        }
+    </script>
+</body>
+</html>
